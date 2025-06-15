@@ -1,0 +1,1 @@
+Il gioco si base sul cattuare le forme con il dito o il mouse.
