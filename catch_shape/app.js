@@ -53,7 +53,7 @@ function updateScore() {
 function updateTimer() {
   gameTime--;
   timerDisplay.textContent = `Tempo: ${gameTime}s`;
-  if (shapeDuration > 300) shapeDuration -= 10;
+  if (shapeDuration > 500) shapeDuration -= 10;
   if (gameTime <= 0) {
     stopGame(); // Usa la nuova funzione stopGame
   }
