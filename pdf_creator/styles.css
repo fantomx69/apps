@@ -56,3 +56,7 @@ body {
             border: none;
             cursor: pointer;
         }
+
+        #signature-pad { border: 1px solid #ccc; width: 400px; height: 150px; }
+        
+        .btn { margin: 5px; }
