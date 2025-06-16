@@ -33,10 +33,18 @@
             <div id="editor">
                 <!-- Il contenuto dell'editor apparirà qui -->
             </div>
+            <input class="btn" type="file" accept="application/pdf" onchange="loadPDF(event)">
+        </div>
+
+        <div>
+            <canvas id="signature-pad"></canvas>
+            <button class="btn" onclick="saveSignature()">Salva Firma</button>
+            <button class="btn" onclick="clearSignature()">Cancella Firma</button>
         </div>
 
         <!-- Bottone di esportazione -->
         <div class="text-center">
+            <input class="btn" type="file" accept="application/pdf" onchange="loadPDF(event)">
             <button id="export-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
                 Esporta in PDF
             </button>
@@ -50,6 +58,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <!-- html2canvas per "fotografare" il contenuto dell'editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
     
     <script src="app.js"></script>
     

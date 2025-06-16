@@ -28,6 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 placeholder: 'Inizia a scrivere qui il tuo capolavoro...'
             });
 
+            // Signature Pad
+            var canvas = document.getElementById('signature-pad');
+            var signaturePad = new SignaturePad(canvas);
+
+            // Salva la firma come immagine
+            var signatureImage = null;
+            function saveSignature() {
+                if (!signaturePad.isEmpty()) {
+                    signatureImage = signaturePad.toDataURL('image/png');
+                    alert('Firma salvata!');
+                }
+            }
+            function clearSignature() {
+                signaturePad.clear();
+                signatureImage = null;
+            }
+
             // 2. LOGICA PER L'ESPORTAZIONE IN PDF (MODIFICATA E CORRETTA)
             const exportButton = document.getElementById('export-pdf-btn');
             
@@ -51,10 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     unit: 'mm',
                     format: 'a4'
                 });
-
+                
                 doc.html(editorContent, {
                     // La funzione callback viene eseguita quando la conversione HTML -> PDF è completata
                     callback: function(doc) {
+                        // Aggiungi firma se presente
+                        if (signatureImage) {
+                            // Posiziona la firma in fondo al testo
+                            doc.addImage(signatureImage, 'PNG', marginLeft, pageHeight - marginBottom - 3, 6, 2);
+                        }
+                        
                         // Salviamo il documento
                         doc.save('documento-esportato.pdf');
                         
@@ -68,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Definiamo la larghezza del contenuto nel PDF
                     width: 170, // Larghezza A4 (210mm) - 2 * margine (15mm)
                     windowWidth: editorContent.scrollWidth, // Larghezza dell'elemento sorgente
+                
                 }).catch((error) => {
                     console.error("Errore durante l'esportazione in PDF:", error);
                     alert("Si è verificato un errore durante l'esportazione. Controlla la console per i dettagli.");
@@ -76,4 +100,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     exportButton.textContent = originalButtonText;
                 });
             });
+
+            // Carica PDF e mostra testo nell’editor
+            async function loadPDF(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                
+                reader.onload = async function() {
+                    const typedarray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument({data: typedarray}).promise;
+                    let text = '';
+                    
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(' ') + '\n';
+                    }
+                    quill.setText(text);
+                };
+                reader.readAsArrayBuffer(file);
+            }
         });
