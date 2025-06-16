@@ -26,12 +26,33 @@ body {
             border-color: #d1d5db; /* gray-300 */
         }
 
+        /* MODIFICA: Rendi i bottoni della toolbar più visibili e interattivi */
+        .ql-toolbar .ql-stroke {
+            stroke: #4b5563; /* Grigio (gray-600) per una migliore visibilità */
+            transition: stroke 0.2s ease-in-out;
+        }
+        .ql-toolbar .ql-fill {
+            fill: #4b5563;
+            transition: fill 0.2s ease-in-out;
+        }
+        .ql-toolbar button:hover .ql-stroke {
+            stroke: #1f2937; /* Più scuro al passaggio del mouse */
+        }
+        .ql-toolbar button:hover .ql-fill {
+            fill: #1f2937;
+        }
+        /* Colora i bottoni attivi di blu per coerenza con l'interfaccia */
+        .ql-toolbar .ql-active .ql-stroke, .ql-toolbar .ql-active .ql-fill {
+            stroke: #2563eb; /* Blu (blue-600) */
+            fill: #2563eb;
+        }
+
         .home-btn {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
-    background-size: cover;
-    border: none;
-    cursor: pointer;
-    }
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+        }
