@@ -81,7 +81,7 @@ button:hover {
   display: inline-block;
   width: 50px;
   height: 50px;
-  background-image: url('home-icon.png'); /* Sostituisci con il tuo file immagine */
+  background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
   background-size: cover;
   border: none;
   cursor: pointer;
