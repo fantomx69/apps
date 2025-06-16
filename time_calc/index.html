@@ -154,11 +154,23 @@
             padding-top: 10px;
             color: #0056b3; /* Colore diverso per il risultato finale */
         }
+        .home-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-        <h1>Calcolatrice Temporale x Mary</h1>
+        <h1>
+            <a href="../index.html" class="home-btn"></a>
+            Calcolatrice Temporale x Mary
+        </h1>
         <div class="container">
             <div class="sidebar">
                 <button data-op="+" title="Addizione">+</button>
