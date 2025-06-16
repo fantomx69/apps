@@ -3,7 +3,7 @@ body {
             text-align: center;
             margin: 0;
             padding: 20px;
-            background-color: linear-gradient(to right, #fc79a284, #96e6a1);
+            background: linear-gradient(to right, #79b0fc, #e296e6);
         }
         h1 {
             color: #333;
