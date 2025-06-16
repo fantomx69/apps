@@ -3,12 +3,8 @@ body {
             text-align: center;
             margin: 0;
             padding: 20px;
-            /*background-color: #c9aaaa;*/
-            background-image: url(./bakground.png) no-repeat center center fixed; 
-            -webkit-background-size: center;
-            -moz-background-size: center;
-            -o-background-size: center;
-            background-size: cover;
+            background-color: #c9aaaa;
+            
         }
         h1 {
             color: #333;
