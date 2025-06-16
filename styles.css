@@ -3,7 +3,8 @@ body {
             text-align: center;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            /*background-color: #c9aaaa;*/
+            background-image: url(./bakground.png);
         }
         h1 {
             color: #333;
