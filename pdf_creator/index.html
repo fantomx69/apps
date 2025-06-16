@@ -33,6 +33,7 @@
             <div id="editor">
                 <!-- Il contenuto dell'editor apparirà qui -->
             </div>
+            <input type="file" accept="application/pdf" onchange="loadPDF(event)">
         </div>
 
         <div>
@@ -42,8 +43,7 @@
         </div>
 
         <!-- Bottone di esportazione -->
-        <div class="text-center">
-            <input type="file" accept="application/pdf" onchange="loadPDF(event)">
+        <div class="text-center">  
             <button id="export-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
                 Esporta in PDF
             </button>
