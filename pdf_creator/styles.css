@@ -1,0 +1,27 @@
+/* Stili personalizzati per l'editor e il font */
+body {
+        font-family: 'Inter', sans-serif;
+     }
+        /* Imposta un'altezza minima per l'editor di testo */
+        #editor {
+            height: 450px;
+            font-size: 16px;
+        }
+
+        /* MODIFICA: Migliora la leggibilità con uno sfondo meno affaticante e testo ad alto contrasto */
+        .ql-editor {
+            background-color: #f9fafb; /* Sfondo grigio molto chiaro, più riposante del bianco puro */
+            color: #111827;          /* Testo scuro per garantire un contrasto eccellente */
+        }
+
+        /* Personalizza la barra degli strumenti di Quill per un aspetto migliore */
+        .ql-toolbar {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-color: #d1d5db; /* gray-300 */
+        }
+        .ql-container {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            border-color: #d1d5db; /* gray-300 */
+        }

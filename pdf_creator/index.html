@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor di Testo Avanzato</title>
+    
+    <!-- Tailwind CSS per uno stile moderno e pulito -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Quill.js - Libreria per l'editor di testo -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    
+    <!-- Font di Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <main class="bg-white dark:bg-gray-800 w-full max-w-4xl p-6 sm:p-8 rounded-xl shadow-2xl">
+        <header class="mb-6 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white">Editor di Testo Avanzato</h1>
+            <p class="text-gray-500 dark:text-gray-400 mt-2">Scrivi, formatta ed esporta il tuo documento con un click.</p>
+        </header>
+
+        <!-- Contenitore per l'editor Quill -->
+        <div id="editor-container" class="mb-6">
+            <div id="editor">
+                <!-- Il contenuto dell'editor apparirà qui -->
+            </div>
+        </div>
+
+        <!-- Bottone di esportazione -->
+        <div class="text-center">
+            <button id="export-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                Esporta in PDF
+            </button>
+        </div>
+    </main>
+
+    <!-- Librerie JavaScript -->
+    <!-- Quill.js -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+    <!-- jsPDF per creare il PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas per "fotografare" il contenuto dell'editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script src="app.js"></script>
+    
+</body>
+</html>
