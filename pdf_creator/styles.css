@@ -74,7 +74,7 @@ body {
 }
 
 .signature-section.show {
-    max-height: 330px;
+    max-height: 300px;
     opacity: 1;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
