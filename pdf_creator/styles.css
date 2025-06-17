@@ -1,62 +1,81 @@
 /* Stili personalizzati per l'editor e il font */
 body {
-        font-family: 'Inter', sans-serif;
-     }
-        /* Imposta un'altezza minima per l'editor di testo */
-        #editor {
-            height: 450px;
-            font-size: 16px;
-        }
+    font-family: 'Inter', sans-serif;
+}
 
-        /* MODIFICA: Migliora la leggibilità con uno sfondo meno affaticante e testo ad alto contrasto */
-        .ql-editor {
-            background-color: #f9fafb; /* Sfondo grigio molto chiaro, più riposante del bianco puro */
-            color: #111827;          /* Testo scuro per garantire un contrasto eccellente */
-        }
+/* Imposta un'altezza minima per l'editor di testo */
+#editor {
+    height: 450px;
+    font-size: 16px;
+}
 
-        /* Personalizza la barra degli strumenti di Quill per un aspetto migliore */
-        .ql-toolbar {
-            border-top-left-radius: 0.5rem;
-            border-top-right-radius: 0.5rem;
-            border-color: #d1d5db; /* gray-300 */
-        }
-        .ql-container {
-            border-bottom-left-radius: 0.5rem;
-            border-bottom-right-radius: 0.5rem;
-            border-color: #d1d5db; /* gray-300 */
-        }
+/* MODIFICA: Migliora la leggibilità con uno sfondo meno affaticante e testo ad alto contrasto */
+.ql-editor {
+    background-color: #f9fafb; /* Sfondo grigio molto chiaro, più riposante del bianco puro */
+    color: #111827;          /* Testo scuro per garantire un contrasto eccellente */
+}
 
-        /* MODIFICA: Rendi i bottoni della toolbar più visibili e interattivi */
-        .ql-toolbar .ql-stroke {
-            stroke: #4b5563; /* Grigio (gray-600) per una migliore visibilità */
-            transition: stroke 0.2s ease-in-out;
-        }
-        .ql-toolbar .ql-fill {
-            fill: #4b5563;
-            transition: fill 0.2s ease-in-out;
-        }
-        .ql-toolbar button:hover .ql-stroke {
-            stroke: #1f2937; /* Più scuro al passaggio del mouse */
-        }
-        .ql-toolbar button:hover .ql-fill {
-            fill: #1f2937;
-        }
-        /* Colora i bottoni attivi di blu per coerenza con l'interfaccia */
-        .ql-toolbar .ql-active .ql-stroke, .ql-toolbar .ql-active .ql-fill {
-            stroke: #2563eb; /* Blu (blue-600) */
-            fill: #2563eb;
-        }
+/* Personalizza la barra degli strumenti di Quill per un aspetto migliore */
+.ql-toolbar {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-color: #d1d5db; /* gray-300 */
+}
+.ql-container {
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-color: #d1d5db; /* gray-300 */
+}
 
-        .home-btn {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
-            background-size: cover;
-            border: none;
-            cursor: pointer;
-        }
+/* MODIFICA: Rendi i bottoni della toolbar più visibili e interattivi */
+.ql-toolbar .ql-stroke {
+    stroke: #4b5563; /* Grigio (gray-600) per una migliore visibilità */
+    transition: stroke 0.2s ease-in-out;
+}
+.ql-toolbar .ql-fill {
+    fill: #4b5563;
+    transition: fill 0.2s ease-in-out;
+}
+.ql-toolbar button:hover .ql-stroke {
+    stroke: #1f2937; /* Più scuro al passaggio del mouse */
+}
+.ql-toolbar button:hover .ql-fill {
+    fill: #1f2937;
+}
+/* Colora i bottoni attivi di blu per coerenza con l'interfaccia */
+.ql-toolbar .ql-active .ql-stroke, .ql-toolbar .ql-active .ql-fill {
+    stroke: #2563eb; /* Blu (blue-600) */
+    fill: #2563eb;
+}
 
-        #signature-pad { border: 1px solid #ccc; width: 400px; height: 150px; }
-        
-        .btn { margin: 5px; }
+.home-btn {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+/* Stili per la sezione firma */
+#signature-pad { 
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: white;
+}
+
+/* Animazioni per mostrare/nascondere la sezione firma */
+.signature-section {
+    transition: all 0.3s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.signature-section.show {
+    max-height: 300px;
+    opacity: 1;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}

@@ -25,21 +25,41 @@
                 <a href="../index.html" class="home-btn"></a>
                 Crea il tuo PDF
             </h1>
-            
         </header>
+
+        <!-- Bottoni per firma e caricamento PDF -->
+        <div class="mb-4 flex justify-center space-x-4">
+            <button id="toggle-signature-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                📝 Mostra Firma
+            </button>
+            <label for="pdf-file-input" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer">
+                📁 Carica PDF
+            </label>
+            <input type="file" id="pdf-file-input" accept="application/pdf" class="hidden">
+        </div>
 
         <!-- Contenitore per l'editor Quill -->
         <div id="editor-container" class="mb-6">
             <div id="editor">
                 <!-- Il contenuto dell'editor apparirà qui -->
             </div>
-            <input type="file" accept="application/pdf" onchange="loadPDF(event)">
         </div>
 
-        <div>
-            <canvas id="signature-pad"></canvas>
-            <button onclick="saveSignature()">Salva Firma</button>
-            <button onclick="clearSignature()">Cancella Firma</button>
+        <!-- Sezione Firma (inizialmente nascosta) -->
+        <div id="signature-section" class="signature-section bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4 text-center">Firma Autografa</h3>
+            <div class="flex flex-col items-center space-y-4">
+                <canvas id="signature-pad" width="400" height="150" class="shadow-md"></canvas>
+                <div class="flex space-x-3">
+                    <button id="save-signature-btn" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        ✓ Salva Firma
+                    </button>
+                    <button id="clear-signature-btn" class="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        🗑️ Cancella Firma
+                    </button>
+                </div>
+                <div id="signature-status" class="text-sm text-gray-600 dark:text-gray-300"></div>
+            </div>
         </div>
 
         <!-- Bottone di esportazione -->
