@@ -164,9 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!file) return;
         
         try {
-            // Configura PDF.js worker
+            // Configura PDF.js worker (CORRETTO)
             if (typeof pdfjsLib !== 'undefined') {
-                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist/build/pdf.worker.min.js';
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.mjs';
+            } else {
+                throw new Error("La libreria PDF.js non è stata caricata correttamente.");
             }
             
             const arrayBuffer = await file.arrayBuffer();
@@ -200,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`PDF caricato con successo! Estratto testo da ${pdf.numPages} pagine.`);
             } else {
                 alert('PDF caricato ma non è stato trovato testo estraibile. Il PDF potrebbe contenere solo immagini.');
-                quill.setText(''); // Pulisce l\'editor
+                quill.setText(''); // Pulisce l'editor
             }
             
         } catch (error) {
