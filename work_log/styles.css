@@ -1,0 +1,392 @@
+/* Stili globali */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.main-content {
+    display: flex;
+    min-height: 600px;
+    /* Rimuovo gap qui perché il resizer lo gestirà */
+}
+
+.grid-section {
+    flex-grow: 1; /* La griglia prenderà lo spazio rimanente */
+    flex-shrink: 1; /* La griglia può restringersi */
+    min-width: 300px; /* Larghezza minima per la griglia */
+    padding: 30px;
+    /* flex-basis sarà impostata dal JS */
+}
+
+.resizer {
+    width: 10px; /* Larghezza della barra trascinabile */
+    cursor: ew-resize; /* Cursore per il ridimensionamento orizzontale */
+    background-color: #ccc;
+    z-index: 1; /* Assicura che sia cliccabile */
+    flex-shrink: 0; /* Impedisce che si restringa */
+    display: none; /* Nascosto di default */
+}
+
+.resizer.visible {
+    display: block; /* Mostra quando la form è visibile */
+}
+
+.form-section {
+    flex-grow: 0; /* La form non cresce automaticamente */
+    flex-shrink: 0; /* La form non si restringe automaticamente */
+    min-width: 320px; /* Larghezza minima per la form */
+    background: #f8f9ff;
+    padding: 30px;
+    border-left: 1px solid #e0e6ed;
+    display: none; /* Inizialmente nascosto */
+    /* flex-basis sarà impostata dal JS */
+    overflow: auto; /* Aggiunto per permettere lo scroll interno se ridotta */
+}
+
+.form-section.visible {
+    display: block; /* Mostrato quando ha la classe visible */
+}
+
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filter-section {
+    background: #f8f9ff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none; /* Inizialmente nascosto */
+}
+
+.filter-section.visible {
+    display: block; /* Mostrato quando ha la classe visible */
+}
+
+.filter-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+}
+
+/* Stili dei bottoni */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85em;
+}
+
+/* Stili della griglia/tabella */
+.grid-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grid th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 8px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75em;
+    position: relative;
+    cursor: pointer;
+}
+
+.grid th.sortable:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.grid th .sort-icon {
+    float: right;
+    margin-left: 5px;
+    opacity: 0.7;
+}
+
+.grid td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e8ecf4;
+    transition: background-color 0.2s ease;
+    font-size: 0.9em;
+}
+
+.grid tr:hover {
+    background-color: #f8f9ff;
+}
+
+.grid tr.selected {
+    background-color: #e3f2fd;
+}
+
+/* Stili del form */
+.form-container {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e6ed;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Stili per lo stato vuoto della tabella */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.empty-state svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+/* Stili per il display delle ore totali */
+.total-hours-display {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #f0f8ff; /* Light blue background */
+    border-radius: 10px;
+    border: 1px solid #d0e0ff;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    display: none; /* Nascosto di default */
+}
+
+.total-hours-display.visible {
+    display: flex; /* Mostrato come flexbox quando visibile */
+    flex-wrap: wrap; /* Permette il wrapping su schermi piccoli */
+    justify-content: center;
+    gap: 20px; /* Spazio tra gli elementi */
+}
+
+/* Stile specifico per il Totale Globale Verde */
+.total-global-green {
+    color: #28a745; /* Verde per il totale globale */
+    font-size: 1.2em; /* Leggermente più grande */
+    font-weight: bolder; /* Più grassetto */
+}
+
+.home-btn {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-image: url('../home-icon.png'); /* Sostituisci con il tuo file immagine */
+            background-size: cover;
+            border: none;
+            cursor: pointer;
+}
+
+/* Media Queries per la responsività */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+    }
+    
+    .form-section {
+        border-left: none;
+        border-top: 1px solid #e0e6ed;
+        width: 100%; /* A larghezza intera su schermi più piccoli */
+        max-width: none; /* Rimuovi vincoli di larghezza massima */
+        min-width: 0; /* Rimuovi vincoli di larghezza minima */
+        flex-basis: auto !important; /* Resetta flex-basis su mobile */
+    }
+
+    .resizer {
+        display: none !important; /* Nascondi il resizer su schermi piccoli */
+    }
+    
+    .toolbar {
+        justify-content: center;
+    }
+    
+    .grid-container {
+        overflow-x: auto; /* Abilita lo scroll orizzontale per tabelle su schermi piccoli */
+    }
+
+    .filter-row {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        min-width: 100%;
+    }
+
+    /* Su schermi piccoli, i totali possono andare a capo */
+    .total-hours-display {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+/* Animazioni */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stili per la tabella responsive (larghezze minime delle colonne) */
+.grid th:nth-child(1), .grid td:nth-child(1) { min-width: 120px; }
+.grid th:nth-child(2), .grid td:nth-child(2) { min-width: 90px; }
+.grid th:nth-child(3), .grid td:nth-child(3) { min-width: 80px; }
+.grid th:nth-child(4), .grid td:nth-child(4) { min-width: 80px; }
+.grid th:nth-child(5), .grid td:nth-child(5) { min-width: 80px; }
+.grid th:nth-child(6), .grid td:nth-child(6) { min-width: 80px; }
+.grid th:nth-child(7), .grid td:nth-child(7) { min-width: 80px; }
+.grid th:nth-child(8), .grid td:nth-child(8) { min-width: 120px; }
+.grid th:nth-child(9), .grid td:nth-child(9) { min-width: 100px; }

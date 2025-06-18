@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro di Lavoro</title>
+    <!-- Collegamento al file CSS esterno -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <a href="../index.html" class="home-btn"></a>
+                📋 Registro di Lavoro
+            </h1>
+            <p>Gestisci le tue attività lavorative in modo semplice ed efficace</p>
+        </div>
+
+        <div class="main-content">
+            <div class="grid-section">
+                <div class="toolbar">
+                    <button class="btn btn-primary" onclick="nuovoRecord()">
+                        ➕ Nuovo Record
+                    </button>
+                    <button class="btn btn-warning" onclick="modificaRecord()" id="btnModifica" disabled>
+                        ✏️ Modifica
+                    </button>
+                    <button class="btn btn-danger" onclick="eliminaRecord()" id="btnElimina" disabled>
+                        🗑️ Elimina
+                    </button>
+                    <button class="btn btn-info" onclick="esportaPDF()">
+                        📄 PDF
+                    </button>
+                    <button class="btn btn-success" onclick="esportaCSV()">
+                        📊 CSV
+                    </button>
+                    <button class="btn btn-primary" onclick="toggleFiltri()">
+                        🔍 Filtri
+                    </button>
+                    <button class="btn btn-info" onclick="toggleCalcoloOreLavoro()">
+                        🧮 Calcolo Totali Ore
+                    </button>
+                </div>
+
+                <div class="filter-section" id="filterSection">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="filtroAzienda">Azienda</label>
+                            <input type="text" id="filtroAzienda" class="form-control" placeholder="Filtra per azienda...">
+                        </div>
+                        <div class="filter-group">
+                            <label for="filtroDataInizio">Data Inizio</label>
+                            <input type="date" id="filtroDataInizio" class="form-control">
+                        </div>
+                        <div class="filter-group">
+                            <label for="filtroDataFine">Data Fine</label>
+                            <input type="date" id="filtroDataFine" class="form-control">
+                        </div>
+                        <div class="filter-group">
+                            <label for="filtroMotivazioneExtra">Motivazione Ore Extra</label>
+                            <input type="text" id="filtroMotivazioneExtra" class="form-control" placeholder="Filtra per motivazione...">
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <button class="btn btn-success btn-sm" onclick="applicaFiltri()">Applica Filtri</button>
+                        <button class="btn btn-warning btn-sm" onclick="pulisciFiltri()">Pulisci Filtri</button>
+                    </div>
+                </div>
+
+                <div class="grid-container">
+                    <table class="grid" id="dataGrid">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="ordinaColonna('azienda')">
+                                    Azienda <span class="sort-icon" id="sort-azienda">↕️</span>
+                                </th>
+                                <th class="sortable" onclick="ordinaColonna('data')">
+                                    Data <span class="sort-icon" id="sort-data">↕️</span>
+                                </th>
+                                <th>Ora Inizio</th>
+                                <th>Pausa Inizio</th>
+                                <th>Pausa Fine</th>
+                                <th>Ora Fine</th>
+                                <th>Ore Extra</th>
+                                <th>Motivazione Ore Extra</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gridBody">
+                        </tbody>
+                    </table>
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                        <h3>Nessun record trovato</h3>
+                        <p>Clicca su "Nuovo Record" per iniziare</p>
+                    </div>
+                </div>
+
+                <div class="total-hours-display" id="totalHoursDisplay">
+                    <span><strong>Tot. Ore Lavorate:</strong> <span id="totalWorkedHours">00:00</span></span>
+                    <span><strong>Tot. Ore Extra:</strong> <span id="totalExtraHours">00:00</span></span>
+                    <span class="total-global-green"><strong>Totale Globale:</strong> <span id="totalGlobalHours">00:00</span></span>
+                </div>
+            </div>
+            
+            <div class="resizer" id="resizer"></div> <!-- La barra di ridimensionamento -->
+
+            <div class="form-section">
+                <div class="form-container">
+                    <h2 class="form-title" id="formTitle">Nuovo Record</h2>
+                    <form id="recordForm">
+                        <div class="form-group">
+                            <label for="azienda">Azienda *</label>
+                            <input type="text" id="azienda" class="form-control" maxlength="30" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="data">Data *</label>
+                            <input type="date" id="data" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oraInizio">Ora Inizio *</label>
+                            <input type="time" id="oraInizio" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pausaInizio">Pausa Inizio</label>
+                            <input type="time" id="pausaInizio" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pausaFine">Pausa Fine</label>
+                            <input type="time" id="pausaFine" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oraFine">Ora Fine *</label>
+                            <input type="time" id="oraFine" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oreExtra">Ore Extra</label>
+                            <input type="time" id="oreExtra" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="motivazioneOreExtra">Motivazione Ore Extra</label>
+                            <input type="text" id="motivazioneOreExtra" class="form-control" maxlength="30" placeholder="Inserisci motivazione ore extra...">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="note">Note</label>
+                            <textarea id="note" class="form-control" rows="4" maxlength="150" placeholder="Inserisci note aggiuntive..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">💾 Salva</button>
+                            <button type="button" class="btn btn-primary" onclick="annullaOperazione()">❌ Annulla</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collegamento al file JavaScript esterno -->
+    <script src="app.js"></script>
+</body>
+</html>
