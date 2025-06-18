@@ -1,31 +1,70 @@
 body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(to right, #79b0fc, #e296e6);
+}
+
+h1 {
+    color: #333;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.scrolling-text {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            margin: 0 20px 20px 20px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .scrolling-text p {
+            display: inline-block;
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(to right, #79b0fc, #e296e6);
-        }
-        h1 {
-            color: #333;
-        }
-        .menu {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .btn {
-            padding: 15px 25px;
             font-size: 18px;
-            border: none;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background 0.3s;
+            font-weight: bold;
+            background: linear-gradient(45deg, #1e3a8a, #059669, #1e40af, #10b981);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: scroll 12s linear infinite, gradient 4s ease infinite;
+            line-height: 40px;
+            padding-left: 100%;
         }
-        .btn:hover {
-            background-color: #0056b3;
+        
+        @keyframes scroll {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+        
+        @keyframes gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
