@@ -361,7 +361,7 @@ async function esportaCSV() {
                 const oreLavorate = calcolaOreLavorateSingoloRecord(record);
                 return [
                     `"${record.azienda || ''}"`,
-                    record.data || '',
+                    formatData(record.data), // Usa formatData per l'esportazione DD/MM/YYYY
                     record.oraInizio || '',
                     record.pausaInizio || '',
                     record.pausaFine || '',
@@ -370,7 +370,7 @@ async function esportaCSV() {
                     `"${record.motivazioneOreExtra || ''}"`,
                     `"${record.note || ''}"`,
                     oreLavorate
-                ].join(',');
+                ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(','); // Aggiunto escaping per CSV
             })
         ].join('\n');
         
@@ -386,6 +386,141 @@ async function esportaCSV() {
         console.error('Errore esportazione CSV:', error);
         showMessage('Errore nell\'esportazione CSV.', 'error');
     }
+}
+
+// Funzione per convertire la data da YYYY-MM-DD (usata internamente) a DD/MM/YYYY (per visualizzazione/esportazione)
+function formatData(dataString) {
+    if (!dataString) return '';
+    try {
+        const [year, month, day] = dataString.split('-');
+        return `${day}/${month}/${year}`;
+    } catch (e) {
+        console.warn("Errore di formattazione data:", dataString, e);
+        return dataString;
+    }
+}
+
+// Funzione per convertire la data da DD/MM/YYYY (dal CSV) a YYYY-MM-DD (per il DB)
+function convertiDataPerDB(dataString) {
+    if (!dataString) return '';
+    const parts = dataString.split('/');
+    if (parts.length === 3) {
+        const [day, month, year] = parts;
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    return dataString; // Ritorna la stringa originale se non è nel formato atteso
+}
+
+
+// Funzione per l'importazione CSV
+function importaCSV() {
+    console.log('importaCSV: Avvio importazione CSV.');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) {
+            showMessage('Nessun file selezionato.', 'info');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const csvContent = event.target.result;
+            const recordsToImport = parseCSV(csvContent);
+            console.log('importaCSV: Record parsificati:', recordsToImport.length);
+
+            let importedCount = 0;
+            let errorCount = 0;
+
+            for (const recordData of recordsToImport) {
+                try {
+                    // Mappa i dati dal CSV ai campi del record
+                    const record = {
+                        azienda: recordData['Azienda'] || '',
+                        data: convertiDataPerDB(recordData['Data']), // Converte la data per il DB
+                        oraInizio: recordData['Ora Inizio'] || '',
+                        pausaInizio: recordData['Pausa Inizio'] || '',
+                        pausaFine: recordData['Pausa Fine'] || '',
+                        oraFine: recordData['Ora Fine'] || '',
+                        oreExtra: recordData['Ore Extra'] || '',
+                        motivazioneOreExtra: recordData['Motivazione Ore Extra'] || '',
+                        note: recordData['Note'] || ''
+                    };
+
+                    // Validazione minima prima dell'aggiunta
+                    if (!record.azienda || !record.data || !record.oraInizio || !record.oraFine) {
+                        console.warn('Record ignorato per dati mancanti:', recordData);
+                        errorCount++;
+                        continue;
+                    }
+
+                    await aggiungiRecord(record);
+                    importedCount++;
+                } catch (err) {
+                    console.error('Errore nell\'importazione del record:', recordData, err);
+                    errorCount++;
+                }
+            }
+
+            showMessage(`Importazione completata: ${importedCount} record aggiunti, ${errorCount} errori.`);
+            await caricaDati(); // Ricarica la griglia dopo l'importazione
+        };
+        reader.readAsText(file);
+    };
+
+    input.click(); // Apre la finestra di selezione file
+}
+
+// Funzione di utility per parsificare il CSV
+function parseCSV(csvString) {
+    const lines = csvString.split('\n').filter(line => line.trim() !== ''); // Rimuovi righe vuote
+    if (lines.length === 0) return [];
+
+    const headers = lines[0].split(',').map(header => header.trim().replace(/^"|"$/g, '').replace(/""/g, '"')); // Rimuovi apici e gestisci doppi apici
+    const records = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        // Simple regex to split by comma, ignoring commas within double quotes
+        // This regex is a basic attempt and might not handle all edge cases of CSV
+        // Modifica qui: aggiunta una regex più robusta per la suddivisione e pulizia dei valori
+        const values = [];
+        let inQuote = false;
+        let currentValue = '';
+        for (let j = 0; j < lines[i].length; j++) {
+            const char = lines[i][j];
+            if (char === '"') {
+                if (j + 1 < lines[i].length && lines[i][j + 1] === '"') {
+                    // Doppio apice escapato (es. "" dentro "testo con ""apice""")
+                    currentValue += '"';
+                    j++; // Salta il secondo apice
+                } else {
+                    inQuote = !inQuote;
+                }
+            } else if (char === ',' && !inQuote) {
+                values.push(currentValue);
+                currentValue = '';
+            } else {
+                currentValue += char;
+            }
+        }
+        values.push(currentValue); // Aggiungi l'ultimo valore
+
+        if (values.length !== headers.length) {
+            console.warn(`Riga CSV ignorata a causa di formato non corrispondente alle intestazioni: "${lines[i]}"`);
+            continue;
+        }
+
+        const record = {};
+        for (let j = 0; j < headers.length; j++) {
+            // Rimuovi spazi e doppi apici extra all'inizio e alla fine del valore
+            record[headers[j]] = (values[j] || '').trim().replace(/^"|"$/g, '').replace(/""/g, '"');
+        }
+        records.push(record);
+    }
+    return records;
 }
 
 async function esportaPDF() {
@@ -460,17 +595,6 @@ async function esportaPDF() {
     }
 }
 
-// Funzione di formattazione data per PDF
-function formatData(dataString) {
-    if (!dataString) return '';
-    try {
-        const [year, month, day] = dataString.split('-');
-        return `${day}/${month}/${year}`;
-    } catch (e) {
-        console.warn("Errore di formattazione data:", dataString, e);
-        return dataString;
-    }
-}
 
 // Funzione per impostare le larghezze iniziali quando il form è visibile
 function setInitialPanelWidths() {
