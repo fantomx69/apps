@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro di Lavoro</title>
-    <!-- Collegamento al file CSS esterno -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -34,6 +33,9 @@
                     </button>
                     <button class="btn btn-success" onclick="esportaCSV()">
                         📊 CSV
+                    </button>
+                    <button class="btn btn-info" onclick="importaCSV()">
+                        📥 Importa CSV
                     </button>
                     <button class="btn btn-primary" onclick="toggleFiltri()">
                         🔍 Filtri
@@ -106,9 +108,7 @@
                 </div>
             </div>
             
-            <div class="resizer" id="resizer"></div> <!-- La barra di ridimensionamento -->
-
-            <div class="form-section">
+            <div class="resizer" id="resizer"></div> <div class="form-section">
                 <div class="form-container">
                     <h2 class="form-title" id="formTitle">Nuovo Record</h2>
                     <form id="recordForm">
@@ -167,7 +167,6 @@
         </div>
     </div>
 
-    <!-- Collegamento al file JavaScript esterno -->
     <script src="app.js"></script>
 </body>
 </html>
